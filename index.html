@@ -1,0 +1,326 @@
+<?php
+session_start();
+if(isset($_SESSION["db_name"])){
+	echo $_SESSION["db_name"];
+}else{
+	exit();
+}
+
+?>
+
+<html>
+<head>
+	<script>
+		
+		var b_data = 0,i_data = 0,h_data = 0,u_data = 0,e_link = 0,erp = 0;
+		function check_param(e){
+			e = e || window.event;
+			var t_bold = document.getElementById("t_bold").getAttribute("d-select");
+			var t_italic = document.getElementById("t_italic").getAttribute("d-select");
+			var t_highlight = document.getElementById("t_highlight").getAttribute("d-select");
+			var t_underline = document.getElementById("t_underline").getAttribute("d-select");
+			
+			
+			if(e.keyCode == 27){
+				e.preventDefault();
+				e.stopPropagation();
+				
+				document.getElementById("text_area_modify").innerHTML += "<span id='delta_home"+erp+"' style='min-width:10px;color:black;' contenteditable='true'>&nbsp</span>";
+				
+				if(t_bold == 'true'){
+					document.getElementById("t_bold").setAttribute("d-select","false");
+					document.getElementById("t_bold").style.backgroundColor = "white";
+				}
+				if(t_italic == 'true'){
+					document.getElementById("t_italic").setAttribute("d-select","false");
+					document.getElementById("t_italic").style.backgroundColor = "white";
+				}
+				if(t_highlight == 'true'){
+					document.getElementById("t_highlight").setAttribute("d-select","false");
+					document.getElementById("t_highlight").style.backgroundColor = "white";
+				}
+				if(t_underline == 'true'){
+					document.getElementById("t_underline").setAttribute("d-select","false");
+					document.getElementById("t_underline").style.backgroundColor = "white";
+				}
+				
+				document.getElementById("delta_home"+erp).focus();
+				erp++;
+				
+			}else if(e.keyCode == 9){
+				e.preventDefault();
+				e.stopPropagation();
+				alert();
+			}else{
+				
+			}
+		}
+		function link_address(){
+			document.getElementById("text_area_modify").innerHTML += "<span id='elink_"+(e_link)+"' contenteditable='true' style='color:blue;min-width:40px;border-bottom:1px solid blue;border-radius:3px;' e-link=''>&nbsp ";
+			document.getElementById("link_display").style.width = "202px";
+			document.getElementById("link_display").innerHTML = "<div style='width:100%;height:auto;'><div style='width:100%;float:left'><div style='width:160px;float:left;height:28px'><input id='e_link_connect' type='text' onkeydown = end_link1(event) placeholder='External Link' style='width:100%;float:left;padding:8px;outline:none;border:none' /></div><div style='width:40px;float:left'><button style='width:40px;height:29px;border:none;outline:none;padding:4px' onclick=end_link()>Go</button></div></div></div>";
+			e_link++;
+		}
+		function end_link1(event){
+			if(event.keyCode == 13 || event.keyCode == 27 ){
+				event.preventDefault();
+				document.getElementById("text_area_modify").innerHTML += "<span style='color:black;' contenteditable='true'>&nbsp</span>";
+				document.getElementById('link_display').style.width = "34px";
+				var e_link_data = document.getElementById("e_link_connect").value;
+				
+				document.getElementById('link_display').innerHTML = '<div style="font-size:26px;font-weight:bold" onclick=link_address() ><span>a/</span><span>></span></div>';
+				
+				alert(e_link_data);
+				var l = e_link -1 ;
+				
+				document.getElementById("elink_"+l).setAttribute("e-link",e_link_data);
+			}
+		}
+		function end_link(){
+			document.getElementById("text_area_modify").innerHTML += "<span style='color:black;' contenteditable='true'>&nbsp</span>";
+			
+			document.getElementById('link_display').style.width = "34px";
+			var e_link_data = document.getElementById("e_link_connect").value;
+			document.getElementById('link_display').innerHTML = '<div style="font-size:26px;font-weight:bold" onclick=link_address() ><span>a/</span><span>></span></div>';
+			
+			alert(e_link_data);
+			var l = e_link -1 ;
+			
+			document.getElementById("elink_"+l).setAttribute("e-link",e_link_data);
+		}
+		function display_bold(){
+			var see = document.getElementById("t_bold").getAttribute("d-select");
+			if(see == 'true'){
+				document.getElementById("t_bold").setAttribute("d-select","false");
+				document.getElementById("t_bold").style.backgroundColor = "white";
+				document.getElementById("text_area_modify").innerHTML += "<span contenteditable='true' style='text-decoration:none;color:black'>&nbsp</span>";
+			}else{
+				document.getElementById("t_bold").setAttribute("d-select","true");
+				document.getElementById("t_bold").style.backgroundColor = "lightgrey";
+				document.getElementById("text_area_modify").innerHTML += "<span contenteditable='true' style='font-weight:bold'>&nbsp</span>";
+			}
+			if(document.getElementById("t_italic").getAttribute("d-select") == 'true'){
+				document.getElementById("t_italic").setAttribute("d-select","false");
+				document.getElementById("t_italic").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_highlight").getAttribute("d-select") == 'true'){
+				document.getElementById("t_highlight").setAttribute("d-select","false");
+				document.getElementById("t_highlight").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_underline").getAttribute("d-select") == 'true'){
+				document.getElementById("t_underline").setAttribute("d-select","false");
+				document.getElementById("t_underline").style.backgroundColor = "white";
+			}
+			
+		}
+		function display_italic(){
+			var see = document.getElementById("t_italic").getAttribute("d-select");
+			if(see == 'true'){
+				document.getElementById("t_italic").setAttribute("d-select","false");
+				document.getElementById("t_italic").style.backgroundColor = "white";
+				document.getElementById("text_area_modify").innerHTML += "<span contenteditable='true' style='text-decoration:none;color:black'>&nbsp</span>";
+			}else{
+				document.getElementById("t_italic").setAttribute("d-select","true");
+				document.getElementById("t_italic").style.backgroundColor = "lightgrey";
+				document.getElementById("text_area_modify").innerHTML += "<i>&nbsp</i>";
+			}
+			if(document.getElementById("t_bold").getAttribute("d-select") == 'true'){
+				document.getElementById("t_bold").setAttribute("d-select","false");
+				document.getElementById("t_bold").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_highlight").getAttribute("d-select") == 'true'){
+				document.getElementById("t_highlight").setAttribute("d-select","false");
+				document.getElementById("t_highlight").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_underline").getAttribute("d-select") == 'true'){
+				document.getElementById("t_underline").setAttribute("d-select","false");
+				document.getElementById("t_underline").style.backgroundColor = "white";
+			}
+		}
+		function display_underline(){
+			var see = document.getElementById("t_underline").getAttribute("d-select");
+			if(see == 'true'){
+				document.getElementById("t_underline").setAttribute("d-select","false");
+				document.getElementById("t_underline").style.backgroundColor = "white";
+				document.getElementById("text_area_modify").innerHTML += "<span contenteditable='true' style='text-decoration:none;color:black'>&nbsp</span>";
+			}else{
+				document.getElementById("t_underline").setAttribute("d-select","true");
+				document.getElementById("t_underline").style.backgroundColor = "lightgrey";
+				document.getElementById("text_area_modify").innerHTML += "<span style='text-decoration:underline'>&nbsp</span>";
+			}
+			if(document.getElementById("t_bold").getAttribute("d-select") == 'true'){
+				document.getElementById("t_bold").setAttribute("d-select","false");
+				document.getElementById("t_bold").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_italic").getAttribute("d-select") == 'true'){
+				document.getElementById("t_italic").setAttribute("d-select","false");
+				document.getElementById("t_italic").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_highlight").getAttribute("d-select") == 'true'){
+				document.getElementById("t_highlight").setAttribute("d-select","false");
+				document.getElementById("t_highlight").style.backgroundColor = "white";
+			}
+		}
+		function display_highlighter(){
+			var see = document.getElementById("t_highlight").getAttribute("d-select");
+			if(see == 'true'){
+				document.getElementById("t_highlight").setAttribute("d-select","false");
+				document.getElementById("t_highlight").style.backgroundColor = "white";
+				document.getElementById("text_area_modify").innerHTML += "<span contenteditable='true' style='text-decoration:none;color:black'>&nbsp</span>";
+			}else{
+				document.getElementById("t_highlight").setAttribute("d-select","true");
+				document.getElementById("t_highlight").style.backgroundColor = "lightgrey";
+				document.getElementById("text_area_modify").innerHTML += "<span style='background-color:yellow'>&nbsp</span>";
+			}
+			if(document.getElementById("t_bold").getAttribute("d-select") == 'true'){
+				document.getElementById("t_bold").setAttribute("d-select","false");
+				document.getElementById("t_bold").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_italic").getAttribute("d-select") == 'true'){
+				document.getElementById("t_italic").setAttribute("d-select","false");
+				document.getElementById("t_italic").style.backgroundColor = "white";
+			}
+			if(document.getElementById("t_underline").getAttribute("d-select") == 'true'){
+				document.getElementById("t_underline").setAttribute("d-select","false");
+				document.getElementById("t_underline").style.backgroundColor = "white";
+			}
+		}
+		
+		function upload_de_image(db){
+			
+			var sol_image = document.getElementById("sol_yui_desc_image").files[0];
+			
+			if(sol_image.name != ''){
+				if(sol_image.size <= 524288){
+					var sol_image_type = sol_image.type;
+					if(sol_image_type == 'image/jpeg' || sol_image_type == 'image/png' || sol_image_type == 'image/bmp' || sol_image_type == 'image/gif'){
+						
+						var sol_form = new FormData();
+						
+						sol_form.append("sol_yui_desc_image",sol_image);
+						sol_form.append("user",db);
+						var sol_jx;
+						if(window.XMLHttpRequest){
+							sol_jx = new XMLHttpRequest();
+						}else{
+							sol_jx = new ActiveXObject();
+						}
+						
+						sol_jx.open("post","user_sol_image.php",false);
+						
+						sol_jx.onreadystatechange = function(){
+							if(sol_jx.status == 200 && sol_jx.readyState == 4){
+								if(sol_jx.responseText.substr(0,5).toLowerCase() == 'error'){
+									alert(sol_jx.responseText);
+								}else if(sol_jx.responseText.substr(0,8).toLowerCase() == 'success:'){
+									var ln = sol_jx.responseText.length;
+									document.getElementById("text_area_modify").innerHTML  = "<div>"+document.getElementById("text_area_modify").innerHTML+"</div>";
+									document.getElementById("text_area_modify").innerHTML += "<div style='width:100%;max-height:220px;float:left;border:1px solid lightgrey;background-color:lightgrey;text-align:center' contenteditable='true'><img src='"+sol_jx.responseText.substr(8,ln).toLowerCase()+"' style=';max-width:200px;max-height:200px;text-align:center' />\n<br>Description Here</div>";
+								}else{
+									alert(sol_jx.responseText);
+								}
+							}
+						}
+						document.getElementById('desc_loading_effect').style.display = "block";
+						sol_jx.upload.addEventListener("progress",function(event){
+							document.getElementById('progress_for_description').style.width = Math.round((event.loaded/event.total)*100)+"%";
+						});
+						
+						sol_jx.addEventListener("load",function(event){
+							document.getElementById('desc_loading_effect').style.display = "none";
+							document.getElementById("text_area_modify").innerHTML += "<div style='min-width:10px;width:100%;float:left' id='delta_home"+erp+"' style='color:black;' contenteditable='true' placeholder='Start'>&nbsp;==></div>";
+							erp++;
+						});
+						sol_jx.addEventListener("error",function error_transferring(){
+							document.getElementById('desc_loading_effect').style.display = "none";
+						});
+			
+						sol_jx.addEventListener("abort",function cancelled(){
+							document.getElementById('desc_loading_effect').style.display = "none";
+						});
+						sol_jx.send(sol_form);
+					}
+				}else{
+					alert("File Size Should Be Less Than 500 KB");
+				}
+			}else{
+				alert("Please choose A File");
+			}
+		}
+	</script>
+</head>
+<body>
+<div style="width:100%;float:left;">
+  <div style="padding:3px;">
+    <div style="width:100%;float:left;">
+      <div style="width:100%;float:left">
+        <div style="width:95%;margin:0 auto;">
+          <div style="width:100%;float:left">
+            <label style="width:100%;float:left">
+              <input type="text" name="quora_que" id="quora_a" style="width:100%;float:left;padding:4px;font-size:16px;font-family:Tahoma, Geneva, sans-serif" placeholder="Question" />
+            </label>
+          </div>
+        </div>
+      </div>
+      <div style="width:100%;float:left;margin-top:10px;">
+	  	<div style="padding:4px;">
+			<div style="width:100%;float:left;border:1px solid green">
+				<div style="width:100%;float:left;margin-top:4px">
+					<div style="width:100%;float::left">
+					  <div style="width:34px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;position:relative" id="link_display">
+						<div style="font-size:26px;font-weight:bold" onclick=link_address() ><span>a/</span><span>></span></div>
+						
+					  </div>
+					  <div style="width:54px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;" id='t_image'>
+						<div style="width:100%;float:left"> 
+							<span>
+								<form method="post" enctype="multipart/form-data">
+						  			<label style="font-size:22px;font-weight:bold" onchange=upload_de_image('<?php echo $_SESSION['db_name'] ?>')>
+										<input type="file" name="sol_yui_desc_image" id="sol_yui_desc_image" style="position:absolute;top:-1000px" />
+										<span style="text-align:center"><span>img</span><span>/</span><span>></span></span>
+									 </label>
+								</form>
+								
+						  </span>
+						</div>
+					  </div>
+					  <div id='t_bold' d-select='false' style="width:30px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;" onclick=display_bold()>
+						<div style="width:100%;float:left;text-align:center"> <span style=";font-size:22px;text-align:center"> <strong>B</strong> </span> </div>
+					  </div>
+					  <div id='t_italic' d-select='false' style="width:30px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;" onclick=display_italic();>
+						<div style="width:100%;float:left;text-align:center"> <span style="font-size:26px;text-align:center"> <i>I</i> </span> </div>
+					  </div>
+					  <div id='t_underline' d-select='false'  style="width:30px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;" onclick=display_underline()>
+						<div style="width:100%;float:left;text-align:center"> <span style="text-decoration:underline;font-size:22px;text-align:center"> U </span> </div>
+					  </div>
+					  <div id='t_highlight' d-select='false'  style="width:30px;height:30px;float:left;border:1px solid green;padding:3px;cursor:pointer;margin-left:4px;" onclick=display_highlighter()>
+						<div style="width:100%;float:left;text-align:center"> <span style="background-color:yellow;font-size:22px;text-align:center"> H </span> </div>
+					  </div>
+					  
+					</div>
+				  </div>
+				  <div style="width:100%;float:left">
+					<div style="padding:4px;">
+					  <div style="width:100%;float:left;position:relative">
+						<div onkeydown=check_param(event) placeholder="Solution" id="text_area_modify"  style="width:100%;float:left;height:auto; resize:vertical;border:none;outline:none;border-top:1px solid black;padding-bottom:5px;padding-top:5px;" contenteditable="true"></div>
+					  </div>
+					</div>
+				  </div>
+			</div>
+		</div>
+	  </div>
+      <div></div>
+    </div>
+  </div>
+</div>
+<div id='desc_loading_effect' style="width:100%;float:left;height:100%;top:0px;left:0px;position:fixed;background-color:rgba(225,245,255,0.5);position:absolute;display:none">
+	<div style="width:80%;margin:0 auto;">
+		<div style="width:100%;float:left;border:1px solid green;height:40px;margin-top:90px;padding:3px;background-color:rgba(225,245,255,1)">
+			<div style="width:100%;float:left;background-color:white;height:40px">
+				<div style="float:left;background-color:rgba(225,245,255,0.5);height:40px" id="progress_for_description"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
